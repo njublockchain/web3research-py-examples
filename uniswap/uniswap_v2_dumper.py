@@ -2,7 +2,6 @@
 from binascii import hexlify
 import os
 import json
-import pickle
 import dotenv
 import eth_utils
 from web3research import Web3Research
@@ -206,14 +205,14 @@ def extract_pair_events(pair_address: str):
 def dump_pair(pair):
     pair_address = pair["pair"]  # pair contract address, get events from them
 
-    if os.path.exists(f"output/uniswap_v2_pairs/{pair_address}.pkl"):
+    if os.path.exists(f"output/uniswap_v2_pairs/{pair_address}.json"):
         print(pair["id"], "exists")
         return
 
     data = extract_pair_events(pair_address)
 
-    with open(f"output/uniswap_v2_pairs/{pair_address}.pkl", "wb") as f:
-        pickle.dump(data, f)
+    with open(f"output/uniswap_v2_pairs/{pair_address}.json", "w") as f:
+        json.dump(data, f)
 
     print(pair["id"], "done")
 

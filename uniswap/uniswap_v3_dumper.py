@@ -1,7 +1,6 @@
 from binascii import hexlify
 import os
 import json
-import pickle
 import dotenv
 import eth_utils
 from web3research import Web3Research
@@ -359,12 +358,12 @@ def extract_pool_events(pool_address: str):
 
 def dump_pool(pool):
     pool_address = pool["pool"]  # pool contract address, get events from them
-    if os.path.exists(f"output/uniswap_v3_pools/{pool_address}.pkl"):
+    if os.path.exists(f"output/uniswap_v3_pools/{pool_address}.json"):
         print(pool["pool"], "already done")
         return
     data = extract_pool_events(pool_address)
-    with open(f"output/uniswap_v3_pools/{pool_address}.pkl", "wb") as f:
-        pickle.dump(data, f)
+    with open(f"output/uniswap_v3_pools/{pool_address}.json", "w") as f:
+        json.dump(data, f)
     print(pool["pool"], "done")
 
 
