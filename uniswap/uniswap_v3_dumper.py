@@ -15,7 +15,7 @@ dotenv.load_dotenv()
 from web3 import Web3
 
 w3 = Web3()
-w3r = Web3Research(api_token=os.environ["W3R_API"])
+w3r = Web3Research(api_token=os.environ["W3R_API_KEY"])
 if os.environ["W3R_BACKEND"]:
     eth = w3r.eth(backend=os.environ["W3R_BACKEND"])
 else:
