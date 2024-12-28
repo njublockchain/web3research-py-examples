@@ -56,6 +56,9 @@ def ensure_all_pairs_fetched_from_factory():
             else:
                 offset += limit
 
+        # dedup
+        pairs = list({p["pair"]: p for p in pairs}.values())
+        
         json.dump(pairs, open("output/sushiswap_v2_pairs.json", "w"), indent=2)
     else:
         pairs = json.load(open("output/sushiswap_v2_pairs.json"))
@@ -188,6 +191,10 @@ def extract_pair_events(pair_address: str):
             break
         else:
             offset += limit
+
+    # dedup
+    for k, v in data.items():
+        data[k] = list({x["transactionHash"] + str(x["logIndex"]): x for x in v}.values())
 
     return data
 

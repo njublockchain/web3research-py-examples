@@ -63,6 +63,9 @@ def ensure_all_pools_fetched_from_factory():
             else:
                 offset += limit
 
+        # dedup
+        pools = list({p["pool"]: p for p in pools}.values())
+
         json.dump(pools, open("output/sushiswap_v3_pools.json", "w"), indent=2)
 
     else:
@@ -334,6 +337,10 @@ def extract_pool_events(pool_address: str):
             break
         else:
             offset += limit
+
+    # dedup
+    for k, v in data.items():
+        data[k] = list({d["transactionHash"] + str(d["logIndex"]): d for d in v}.values())
 
     return data
 
